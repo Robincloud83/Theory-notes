@@ -1,0 +1,52 @@
+Node project:- 
+
+nano ~/.bashrc
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+this is the file then 
+source ~/.bashrc
+
+=========================
+#!/bin/bash
+
+# Update and install prerequisites
+sudo apt update
+sudo apt install -y curl gnupg build-essential
+
+# Add NodeSource repository for Node.js 16.x
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+
+# Install Node.js and npm from NodeSource
+sudo apt install -y nodejs
+
+# Verify Node.js and npm installation
+echo "Node.js version:"
+node -v
+
+echo "npm version:"
+npm -v
+
+# Install additional build tools (optional but recommended for building native modules)
+sudo apt install -y build-essential
+
+# Install Node Version Manager (NVM) for managing Node.js versions
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+
+# Source the updated .bashrc to use NVM without restarting the terminal
+source ~/.bashrc
+
+# Install a specific version of Node.js using NVM (v16.13.1)
+nvm install v16.13.1
+
+# Verify the installed Node.js version via NVM
+echo "Node.js version installed by NVM:"
+nvm ls
+
+# Install pm2 globally using npm
+npm i -g pm2
+
+# Verify pm2 installation
+echo "pm2 version:"
+pm2 -v
+
