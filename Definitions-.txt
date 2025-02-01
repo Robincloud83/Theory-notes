@@ -1,0 +1,52 @@
+Definitions:- 
+
+1. Apache/httpd:- 
+                  The Apache HTTP Server, commonly known as Apache, is a free and open-source web server software that enables users to deploy their websites on the internet. 
+
+2. php:-  
+         PHP, which stands for "PHP: Hypertext Preprocessor," is a widely-used, open-source scripting language designed for web development.
+
+3. MySQL/MongoDB:- 
+                   MySQL and MongoDB are both popular database management systems, each designed to handle data storage and retrieval, but they differ significantly in structure and use cases.
+
+4. Node:- 
+          Node.js is an open-source, cross-platform JavaScript runtime environment that executes JavaScript code outside of a web browser.
+
+5. ACL permissions:- 
+                     An Access Control List (ACL) is a set of rules that specifies which users or systems are granted or denied access to a particular object or system resource.
+
+6. Boot process:- 6 level of boot process 
+
+     BIOS:- Basics stands for basics input/output system
+            When the system is powered on, the BIOS hardware components and performs the Power-On Self-Test (POST). It then identifies a bootable device to proceed with the boot process.
+    
+     GRUB (GRand Unified Bootloader), is loaded from the bootable device. It presents a menu to select the operating system or kernel version to boot. Once selected, the bootloader 
+     loads the chosen kernel into memory.
+
+     Kernel Initialization: The Linux kernel initializes system components, manages hardware drivers, and mounts the root filesystem. It also starts the initial process, typically init (or  	systemd in modern distributions), which becomes the first process with PID 1.
+	
+    System and Service Initialization: The init process (or systemd) reads its configuration to determine which services and daemons to start. It sets up the user environment, network  	configurations, and other system services, leading to the user login prompt or graphical interface.
+
+	BIOS, MBR ,MBR ,kernel ,init ,Runlevel
+      
+	Looks at the /etc/inittab file to decide the Linux run level.
+Following are the available run levels
+0 – halt
+1 – Single user mode
+2 – Multiuser, without NFS
+3 – Full multiuser mode
+4 – unused
+5 – X11
+6 – reboot
+
+When the Linux system is booting up, you might see various services getting started. For example, it might say “starting sendmail …. OK”. Those are the runlevel programs, executed from the run level directory as defined by your run level.
+Depending on your default init level setting, the system will execute the programs from one of the following directories.
+Run level 0 – /etc/rc.d/rc0.d/
+Run level 1 – /etc/rc.d/rc1.d/
+Run level 2 – /etc/rc.d/rc2.d/
+Run level 3 – /etc/rc.d/rc3.d/
+Run level 4 – /etc/rc.d/rc4.d/
+Run level 5 – /etc/rc.d/rc5.d/
+Run level 6 – /etc/rc.d/rc6.d 
+
+
