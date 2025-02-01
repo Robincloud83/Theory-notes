@@ -65,6 +65,7 @@ git add Readme.txt
 To commit our changes(taking a snapshot) and provide a message to remember for future reference.
 
 git commit -m “Created a Readme.txt”
+git commit -m "Initial commit"    {To commit all the changes}
 
 
  12. git log
