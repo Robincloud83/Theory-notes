@@ -1,0 +1,91 @@
+websocket reverse proxy for linux core server
+RewriteEngine On
+  RewriteCond %{REQUEST_URI}  ^/socket.io            [NC]
+  RewriteCond %{QUERY_STRING} transport=websocket    [NC]
+  RewriteRule /(.*)           ws://65.1.155.112:5012/$1 [P,L]
+ 
+  ProxyPass / http://65.1.155.112:5012/
+  ProxyPassReverse / http://65.1.155.112:5012/
+ 
+ 
+RewriteRule .* ws://65.1.155.112:5012%{REQUEST_URI}$1 [P,L] ( when WSS socket is slow then add this
+
+=========================================
+mysql remotely:-
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'yvTAPdr~GbGU';
+ 
+CREATE USER 'appinop'@'%' IDENTIFIED BY 'p!a@RV[d@1[F';
+GRANT ALL ON . TO 'appinop'@'%';
+
+===========================================
+for whm:-
+ProxyPass /.well-known !
+ 
+ 
+ProxyPass / http://103.175.163.162:5125/
+ProxyPassReverse / http://103.175.163.162:5125/
+RewriteRule .* ws://164.52.202.206:4000%{REQUEST_URI} [P]
+
+=========================================
+To check the connection on port
+netstat -an | grep :80 | wc -l  # For HTTP traffic
+netstat -an | grep :443 | wc -l # For HTTPS traffic
+
+====================================
+Check the systnex ok in CWP panel
+[root@server ~]# /usr/local/apache/bin/httpd -t
+Syntax OK
+[root@server ~]# systemctl restart httpd
+
+====================================
+To fix the permissions of file/dir
+find . -type f -exec chmod 644 {} \;
+find . -type d -exec chmod 755 {} \;
+
+============================================
+rsync and scp cmds when ssh port change
+
+rsync -avh -e "ssh -p 22587" greentechinfra.zip root@103.175.163.107:/home/greentechinfra/public_html/
+scp -P 22587 .\greentechinfra.zip root@103.175.163.107:/home/greentechinfra/public_html/
+
+============================================
+Mysql dump and import:-
+mysqldump -u [uname] -p db_name > db_backup.sql
+mysql -u database_user_name -p database_name < sql_file_name.sql 
+
+=====================================
+Mount the efs aws in server:-
+file_system_id.efs.aws-region.amazonaws.com:/ mount_point nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport,_netdev 0 0
+ 
+=================================
+For uninstallation please use one of the below commands depending on your server's OS.
+apt-get purge 'bitninja*'
+Or 
+yum remove 'bitninja*'
+ 
+Use the below commands to delete the directories mentioned below, so BitNinja will use the new license.
+
+rm -f /var/lib/bitninja/token*
+rm -rf /var/lib/bitninja/
+rm -rf /etc/bitninja/
+ 
+Then reinstall BitNinja with the one-liner installation code.
+
+==========================================
+almalinux issue during the dnf update
+first run sudo dnf upgrade almalinux-release --nogpgcheck. After that, dnf update should work normally.
+ 
+===============================
+composer commands:-
+/usr/local/bin/ea-php82 /opt/cpanel/composer/bin/composer install     ###in whm
+COMPOSER_MEMORY_LIMIT=-1 /opt/alt/php81/usr/bin/php /usr/bin/composer require google/auth    ##cwp
+/opt/alt/php81/usr/bin/php /usr/bin/composer self-update --2     ####cwp
+
+==========================
+Plesk domain repair cmd:-
+plesk repair web theweddingconnections.com
+
+======================
+to install wp-toolkit in whm
+bash <(curl https://wp-toolkit.plesk.com/cPanel/installer.sh || wget -O - https://wp-toolkit.plesk.com/cPanel/installer.sh)
+ 
