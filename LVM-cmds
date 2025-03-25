@@ -1,0 +1,28 @@
+to check the volumes:- lsblk
+
+to create the Physical vol:- pvcreate /dev/xvdd /dev/xvde /dev/xvdf
+pvs && pvdisplay
+to create the volume group:-  vgcreate volgroupname /dev/xvdd /dev/xvde
+vgs && vgdisplay
+to create the logical volume:- lvcreate -L 13G -n logicalvolumename  volgroupname
+lvs && lvdisplay
+ 
+make filesystem ext4 and remove from filesystem:-
+ For LVM :-  mkfs.ext4 /dev/test_vg/test_lv     ###this is the path of lv /dev/test_vg/test_lv you can check it by lvdisplay
+ For disk :- mkfs -t ext4 /dev/xvdf    #####/dev/xvdf  its a disk
+ wipefs -a /dev/xvdf   ####to remove from filesystem
+
+to add and remove the pv:-
+1. vgextend volumegroupname /dev/xvdf    
+2.  pvmove /dev/xvde  then vgreduce volgroupname /dev/xvde   ####to remove the pv from vg
+
+To increase &&  decrease the logicalvolume
+lvextend -L +1G /dev/test_vg/test_lv
+lvreduce -L -1G /dev/test_vg/test_lv
+
+To permenet mounting:-
+1. check the uuid:- blkid      ####check the uuid of disk
+2. nano /etc/fstab
+UUID=7e1a9905-9307-42f6-972e-fa2e4ca1377d  /mnt/1  ext4  defaults  0 0      
+UUID=9e687c70-307a-4668-90f4-71d0f35fa258  /mnt/2  ext4  defaults  0 0
+3. mount -a
