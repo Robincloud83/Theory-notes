@@ -6,3 +6,4 @@ metadata:
 
 
 kubectl apply -f namespace.yaml
+kubectl delete -f namespace.yaml
