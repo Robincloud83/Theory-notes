@@ -2,3 +2,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: <insert-namespace-name-here>
+
+
+
+kubectl apply -f namespace.yaml
