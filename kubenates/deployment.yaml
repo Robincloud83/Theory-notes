@@ -18,7 +18,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - name: nginx
+      - name: nginx-cont
         image: nginx:1.14.2
         ports:
         - containerPort: 80
@@ -30,5 +30,5 @@ spec:
 #  kubectl get deployments -n nginx
 # kubectl get pods -n nginx
 # kubectl scale deployment.yaml nginx-deployment -n nginx --replicas=5
-
+##  kubectl set image deployment/nginx-deployment nginx-cont=nginx:1.14.2 -n nginx       
 ######   document https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
