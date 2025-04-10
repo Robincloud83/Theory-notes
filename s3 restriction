@@ -1,0 +1,35 @@
+{
+    "Version": "2012-10-17",
+    "Id": "Policy1733392313153",
+    "Statement": [
+        {
+            "Sid": "Stmt1733392269369",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": [
+                "s3:DeleteObject",
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::buckets3prod/*",
+            "Condition": {
+                "NotIpAddress": {
+                    "aws:SourceIp": [
+                        "146.70.142.198",
+                        "3.111.17.14",
+                        "3.7.225.22",
+                        "3.7.222.184",
+			"65.1.23.178",
+			"13.127.91.84"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "Stmt1733392309329",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::buckets3prod/*"
+        }
+    ]
+}
