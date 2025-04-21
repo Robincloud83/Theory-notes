@@ -38,3 +38,4 @@ nodes:
 kind create cluster --config kind-cluster-config.yaml --name my-kind-cluster    ####to start the kind cluster
 kubectl get nodes
 kubectl cluster-info
+#kubectl port-forward service/bankapp-service -n bankapp-namespace 32000:8080 --address=0.0.0.0 &   
