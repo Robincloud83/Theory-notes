@@ -1,0 +1,35 @@
+Open VPN:
+
+wget https://git.io/vpn -O openvpn-install.sh
+
+sudo chmod +x openvpn-install.sh
+
+sudo bash openvpn-install.sh
+
+=================================================
+
+This server is behind NAT. What is the public IPv4 address or hostname?
+Public IPv4 address / hostname [15.206.195.206]:
+
+Which protocol should OpenVPN use?
+   1) UDP (recommended)
+   2) TCP
+Protocol [1]: 1
+
+What port should OpenVPN listen on?
+Port [1194]:
+
+Select a DNS server for the clients:
+   1) Default system resolvers
+   2) Google
+   3) 1.1.1.1
+   4) OpenDNS
+   5) Quad9
+   6) AdGuard
+   7) Specify custom resolvers
+DNS server [1]: 2
+
+Enter a name for the first client:
+Name [client]: robin
+
+=======================================
