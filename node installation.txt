@@ -31,10 +31,11 @@ npm -v
 sudo apt install -y build-essential
 
 # Install Node Version Manager (NVM) for managing Node.js versions
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
 # Source the updated .bashrc to use NVM without restarting the terminal
 source ~/.bashrc
+. ~/.bashrc
 
 # Install a specific version of Node.js using NVM (v16.13.1)
 nvm install v16.13.1
