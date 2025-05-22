@@ -1,0 +1,54 @@
+sudo apt update
+curl -fsSL https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
+apt-key list
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+apt update
+sudo apt install mongodb-org
+sudo systemctl start mongod.service
+sudo systemctl status mongod
+systemctl enable mongod
+
+After installing mongo db:
+
+mongo
+
+use admin
+db.createUser(
+{
+user: "admin",
+pwd: "JDHy35GS%$sg#sb",
+roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+}
+)
+
+
+db.grantRolesToUser('admin', ['clusterAdmin']);
+
+db.grantRolesToUser('admin', ['readWriteAnyDatabase']);
+
+db.grantRolesToUser('admin', ['dbAdminAnyDatabase']);
+ 
+Add roles - Below 4 roles are the super admin roles
+
+clusterAdmin
+readWriteAnyDatabase
+dbAdminAnyDatabase
+userAdminAnyDatabase
+
+vim /etc/mongod.conf
+-> security:
+	authorization: "enabled"
+-> bind ip: 0.0.0.0
+->port : any random port
+
+enable firewall:
+ufw allow
+
+Allow port in firewall:
+ufw allow 27017
+
+ufw status
+
+login to mongodb after creating username and password:
+mongo "mongodb://username@mongo_server_ip:27017"
+
