@@ -72,6 +72,8 @@ This is like an external hard-drive that can be attached to a Pod to store data.
 
 A way to divide cluster resources among multiple users or teams. Think of it as having different folders on a shared computer, where each team can only see their own folder.
 
+In Kubernetes (k8s), a namespace is a way to divide cluster resources between multiple users or projects. It acts like a virtual cluster within the main Kubernetes cluster.
+
 ### Ingress
 
 Think of this as the "front door" for external access to your applications, controlling how HTTP and HTTPS traffic should be routed to your services.
