@@ -1,0 +1,76 @@
+pipeline {
+    agent { label '216.48.176.160' }   // Target server/agent
+
+    environment {
+        APP_PATH       = "/home/project/eupheus-api-prod"
+        GIT_URL        = "git@github.com:Eupheus-Learning/eupheus-api-prod.git"
+        GIT_BRANCH     = "e2e"
+        IMAGE_NAME     = "eupheus-website"
+        CONTAINER_NAME = "eupheus-website"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo ">>> Cloning/Updating repo..."
+                script {
+                    if (!fileExists("${APP_PATH}")) {
+                        sh """
+                          git clone -b ${GIT_BRANCH} ${GIT_URL} ${APP_PATH}
+                        """
+                    } else {
+                        dir("${APP_PATH}") {
+                            sh """
+                              git fetch origin
+                              git reset --hard
+                              git clean -fd
+                              git checkout ${GIT_BRANCH}
+                              git pull origin ${GIT_BRANCH}
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo ">>> Building Docker image..."
+                dir("${APP_PATH}") {
+                    sh """
+                      docker build -t ${IMAGE_NAME}:latest .
+                    """
+                }
+            }
+        }
+
+        stage('Deploy Container') {
+           steps {
+             echo ">>> Deploying Docker container..."
+             sh """
+               if docker ps -a --format '{{.Names}}' | grep -Eq "^${CONTAINER_NAME}\$"; then
+                  echo ">>> Stopping and removing old container..."
+                  docker stop ${CONTAINER_NAME} || true
+                  docker rm ${CONTAINER_NAME} || true
+               fi
+          
+               echo ">>> Running new container..."
+               docker run -d --name ${CONTAINER_NAME} --network host --env-file /home/.env ${IMAGE_NAME}:latest
+             """
+           }
+        }
+        
+     }
+
+    post {
+        failure {
+            echo "❌ Build failed. Please check logs."
+        }
+        success {
+            echo "✅ Deployment successful. Container restarted (or started new)."
+        }
+        always {
+            sh "echo '>>> Pipeline finished at: \$(date)'"
+        }
+     }
+}
