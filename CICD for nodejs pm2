@@ -1,0 +1,82 @@
+pipeline {
+    agent {
+        label '216.48.191.43'   // remote node label
+    }
+
+    environment {
+        APP_PATH   = "/var/www/eubookapi"
+        GIT_URL    = "git@github.com:Eupheus-Learning/eubookapi.git"
+        GIT_BRANCH = "main"
+        NODE_BIN   = "/root/.nvm/versions/node/v20.19.4/bin"
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                echo ">>> Updating repository..."
+                script {
+                    // If project folder doesn't exist, clone fresh
+                    if (!fileExists("${APP_PATH}")) {
+                        sh """
+                          git clone -b ${GIT_BRANCH} ${GIT_URL} ${APP_PATH}
+                        """
+                    } else {
+                        dir("${APP_PATH}") {
+                            sh """
+                              git checkout ${GIT_BRANCH}
+                              git pull origin ${GIT_BRANCH}
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Copy ENV File') {
+            steps {
+                echo ">>> Copying .env file..."
+                sh """
+                  cp -f /home/.env ${APP_PATH}/.env || echo '⚠️ No .env found, skipping...'
+                """
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                echo ">>> Installing dependencies..."
+                dir("${APP_PATH}") {
+                    sh """
+                      export PATH=\$PATH:${NODE_BIN}
+                      npm install || { echo '❌ npm install failed'; exit 1; }
+                    """
+                }
+            }
+        }
+
+        stage('Reload App with PM2') {
+            steps {
+                echo ">>> Reloading application with PM2..."
+                dir("${APP_PATH}") {
+                    sh """
+                      export PATH=\$PATH:${NODE_BIN}
+                      pm2 describe eubookapi > /dev/null 2>&1 \\
+                        && pm2 reload eubookapi \\
+                        || pm2 start server.js -i 2 --name eubookapi
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        failure {
+            echo "❌ Build failed. Please check logs."
+        }
+        success {
+            echo "✅ Build successful & App reloaded."
+        }
+        always {
+            echo ">>> Pipeline completed at: \$(date)"
+        }
+    }
+}
